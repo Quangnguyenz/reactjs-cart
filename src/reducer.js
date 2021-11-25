@@ -33,6 +33,22 @@ const reducer = (state, action) => {
         return { ...state, cart: tempCart }
     }
 
+    if (action.type === 'TOGGLE_AMOUNT') {
+        let tempCard = state.card.map((cartItem) => {
+            if (cartItem.id === action.payload.id) {
+                if (action.payload.type === 'inc') {
+                    return { cardItem, amount: cardItem.amount + 1 }
+                }
+                if (action.payload.type === 'dec') {
+                    return { cardItem, amount: cardItem.amount - 1 }
+                }
+            }
+            return cartItem
+        })
+        return { ...state, cart: tempCart }
+    }
+
+
     if (action.type === 'GET_TOTALS') {
         let { total, amount } = state.cart.reduce((cartTotal, cartItem) => {
             const { price, amount } = cartItem;
@@ -61,10 +77,7 @@ const reducer = (state, action) => {
     }
 
 
-
-
-
-
+    throw new Error('no matching type')
     return state
 }
 
